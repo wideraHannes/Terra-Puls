@@ -51,5 +51,6 @@ async def get_news(iso3: str, limit: int = Query(default=10, le=20)):
             }
         )
 
-    await r.setex(cache_key, 900, json.dumps(normalized))
+    if normalized:
+        await r.setex(cache_key, 900, json.dumps(normalized))
     return normalized[:limit]
